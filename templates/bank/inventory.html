@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Blood Inventory - Blood Bank{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4"><i class="fas fa-warehouse"></i> Blood Inventory Status</h2>
+    
+    <div class="row">
+        {% for item in inventory %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-tint fa-4x text-danger"></i>
+                    </div>
+                    <h2 class="mb-3">
+                        <span class="badge bg-danger blood-type-badge">{{ item.blood_type }}</span>
+                    </h2>
+                    <h3 class="text-danger">{{ item.units_available }}</h3>
+                    <p class="text-muted mb-0">Units Available</p>
+                    <hr>
+                    <small class="text-muted">
+                        <i class="fas fa-clock"></i> Updated: {{ item.last_updated|date:"M d, Y H:i" }}
+                    </small>
+                    {% if item.units_available < 5 %}
+                    <div class="mt-2">
+                        <span class="badge bg-warning">Low Stock</span>
+                    </div>
+                    {% elif item.units_available >= 10 %}
+                    <div class="mt-2">
+                        <span class="badge bg-success">Good Stock</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No inventory data available.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
